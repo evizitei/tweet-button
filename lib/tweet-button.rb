@@ -37,8 +37,10 @@ module TweetButton
   alias_method :twitter_widgets_js_tag, :tweet_widgets_js_tag
   
   def custom_tweet_button(text = 'Tweet', options = {}, html_options = {})
-    # This line is really long.  And it makes me sad.
-    link_to(text, "#{TWITTER_SHARE_URL}?#{options_to_query_string(default_tweet_button_options.merge(options))}", html_options)
+    url = TWITTER_SHARE_URL
+    url.gsub!("http:","https:") if options.delete :ssl
+    url = "#{url}?#{options_to_query_string(default_tweet_button_options.merge(options))}"
+    link_to(text, url, html_options)
   end
   
   def options_to_data_params(opts)
